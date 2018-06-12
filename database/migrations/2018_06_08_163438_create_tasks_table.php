@@ -14,7 +14,12 @@ class AddUserIdToTasklistsTable extends Migration
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
+            $table->increment('id');
+            $table->string('content');
+            $table->string('status', 0);
             $table->integer('user_id')->unsigned()->index();
+            $table->timestamps();
+            //  外部キー制約
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -26,8 +31,6 @@ class AddUserIdToTasklistsTable extends Migration
      */
     public function down()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('user_id');
-        });
+        Schema::dropIfExists('tasks');
     }
 }
